@@ -1,0 +1,29 @@
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-12 pb-0 mb-0 mt-4 pr-0 pl-0">
+            <h1 class="mb-0 text-center" style="background-color: #647F86; color: rgba(255, 255, 255, 0.9);">Listagem de vendas</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12" style="margin-top: 20px;">
+            <table class="table table-sm table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Código</th>
+                        <th scope="col">Cliente</th>
+                        <th scope="col">Data Cadastro</th>
+                        <th scope="col">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let venda of vendas">
+                        <td>{{venda.id}}</td>
+                        <td>{{venda.cliente?.nome}}</td>
+                        <td>{{venda.cadastro | date:'dd/MM/yyyy'}}</td>
+                        <td>{{venda.total | number:'1.2-2'}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

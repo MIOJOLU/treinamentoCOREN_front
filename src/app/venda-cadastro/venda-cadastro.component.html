@@ -1,0 +1,106 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h2>Cadastro Vendas</h2>
+            <form [formGroup]="formVenda" (ngSubmit)="onSubmit()">
+                <div class="form-row">
+                    <div class="form-group col-8">
+                        <label>Nome do Cliente</label>
+                        <select name="cliente" class="custom-select mr-sm-2" id="cliente" formControlName = "cliente" >
+                            <option *ngFor="let cliente of clientes" [ngValue]=cliente>{{cliente.nome}}
+                            </option>
+                        </select>
+                        {{registerFormControl.cliente.errors | json}}
+                        <div *ngIf="registerFormControl.cliente.errors" class="invalid-feedback">
+                            {{registerFormControl.cliente.errors}}
+                            <div class="text-danger" *ngIf="registerFormControl.cliente.errors.required">First Name is required</div>
+                        </div>
+                    </div>
+                    <div class="form-group col-4">
+                        <label >Frete</label>
+                        <input type="text" class="form-control" name="frete" id="frete" currencyMask
+                            [options]="{prefix: '', thousands:'.', decimal:',', allownegative: false}"
+                        formControlName = "frete" (ngModelChange)="calcularTotal()" />
+                        <div *ngIf="registerFormControl.frete.errors" class="invalid-feedback">
+                            {{registerFormControl.frete.errors}}
+                            <div class="text-danger" *ngIf="registerFormControl.frete.errors.required">First Name is required</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="background-color: rgba(219, 177, 160, 0.2); border-radius: 20px 20px 0 0;">
+                    <div class="col-12">
+                        <div class="row" style="background-color: #DBB1A0; border-radius: 20px 20px 0 0; ">
+                            <div class="col-12">
+                                <h3 style="margin: 0;">Itens</h3>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-row">
+                                    <div class=" col-8">
+                                        <label>Produto</label>
+                                        <select class="custom-select mr-sm-2" name="produto" id="produto" [(ngModel)] = "item.produto" [ngModelOptions]="{standalone: true}">
+                                            <option selected>Selecione...</option>
+                                            <option *ngFor="let produto of produtos" [ngValue] = produto>
+                                                {{produto.nome}}
+                                            </option>
+                                        </select>
+                                    </div>
+
+                                    <div class=" col-3">
+                                        <label>Quantidade</label>
+                                        <input type="number" class="form-control" name="quantidade" id="quantidade" [(ngModel)] = "item.quantidade" [ngModelOptions]="{standalone: true}"/>
+                                    </div>
+
+                                    <div class=" col-1 align-self-end">
+                                        <button (click)="incluirItem()" class="btn btn-primary btn-sm"
+                                            style="width: 100%;" [disabled]="!item.produto || !item.quantidade">+</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" style="padding-top: 20px;">
+                            <div class="col-12">
+                                <table class="table table-sm table-striped table-bordered">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>Produto</th>
+                                            <th>Valor Unitário</th>
+                                            <th>Quantidade</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of itens">
+                                            <td>{{item.produto.nome}}</td>
+                                            <td class="numero">{{item.produto.valor | number:'1.2-2'}}</td>
+                                            <td>{{item.quantidade }}</td>
+                                            <td class="numero">{{(item.produto.valor * item.quantidade) | number:'1.2-2'}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row justify-content-end mt-3" >
+                    <div class="col-8 text-right" >
+                        <label for="">Total</label>
+                    </div>
+                </div>
+                <div class="row justify-content-end">
+                    <div class="col-4 text-right">
+                        <input class="tam_total text-right total" readonly [value]="total | number:'1.2-2'"  />
+                    </div>
+                </div>
+                <div class="row justify-content-end">
+                    <div class="col-4 text-right">
+                        <button type="submit" class="btn btn-primary tam_total mt-3" value="salvar">Salvar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
